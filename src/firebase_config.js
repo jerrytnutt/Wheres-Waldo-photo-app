@@ -15,5 +15,5 @@ let storage = firebase.storage()
 export {storage}
 const reader = new FileReader();
 export {reader}
-const db = firebase.firestore()
+const db = firebase.database()
 export {db}

@@ -65,6 +65,7 @@
 }
 
 .imageContainer{
+  position: absolute;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -78,3 +79,16 @@
   border: 1px solid red;
 }
 
+button{
+  position: absolute;
+  height: 200px;
+  width: 200px;
+}
+.y{
+  right: 50px;
+}
+.l{
+  height: 200px;
+  width: 200px;
+  
+}
