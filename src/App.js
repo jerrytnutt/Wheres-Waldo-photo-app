@@ -1,5 +1,5 @@
 import './App.css';
-import { useState } from 'react/';
+import { useState} from 'react/';
 import {storage,db} from "./firebase_config.js"
 import Header from "./components/header.js"
 import Display from "./components/display.js"
@@ -12,37 +12,41 @@ function App() {
   const [imageUrl, setImageUrl] = useState(undefined);
   
   const openRead = () => {
-    storage.refFromURL("gs://waldoapp.appspot.com/egor-klyuchnyk-character.jpg") //name in storage in firebase console
+    storage.refFromURL("gs://waldoapp.appspot.com/egor-klyuchnyk-character.jpg") 
     .getDownloadURL()
         .then((url) => {
-          console.log(url)
           setImageUrl(url);
         })
         
-      
+     return readSum() 
   };
+  
   const readSum = () => {
     let ar = []
+    //https://stackoverflow.com/questions/64076261/firebase-response-is-too-slow
+  // react functional components rerendering
     const dataFor = db.ref('Characters');
     dataFor.on('value', (snapshot) => {
-        
         snapshot.forEach(data => {
+          ar.push(data.val())
           
-          ar.push(data.val().image)
-          setImageUrl(ar[0])
         })
       })
-      
+      setTimeout(() => {
+        setCharacterArray(ar) 
+      }, 1000);
+  };
+  const checkData = (coordinates) =>{
+    console.log(coordinates)
+    //console.log(characterArray)
   }
   return (
     
     <div className="App" >
-      <Header/>
+      <Header characterArray={characterArray}/>
       <button className='y' onClick={openRead}>Button</button>
-      <div></div>
-      <button onClick={readSum}>readsum</button>
-      <div className='l'><img src={imageUrl} alt=''></img></div>
-      <Display imageUrl={imageUrl}/>
+      
+      <Display imageUrl={imageUrl} checkData={checkData}/>
     </div>
   );
 }
