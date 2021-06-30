@@ -12,8 +12,8 @@ const Header = (props) => {
         <div className="imageContainer">
        
         {props.characterArray.map((x) => {
-            console.log(x)
-            return <div key={x.Location[0]}><img  src={x.image} alt=''></img></div>
+            
+            return <div key={x.Location.x1}><img  src={x.image} alt=''></img></div>
         })}
         
         </div>

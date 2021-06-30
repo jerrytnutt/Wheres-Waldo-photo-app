@@ -38,15 +38,24 @@ function App() {
   };
   const checkData = (coordinates) =>{
     console.log(coordinates)
-    //console.log(characterArray)
+    let x = coordinates[0]
+    let length = coordinates.length
+    let locations;
+    for(let i =0;i<length+1;i++){
+      locations = characterArray[i].Location
+      console.log(characterArray)
+      if(x >= locations['x1'] && x <= locations["x2"]){
+        console.log('found')
+      }
+    }
   }
   return (
     
     <div className="App" >
       <Header characterArray={characterArray}/>
-      <button className='y' onClick={openRead}>Button</button>
+     
       
-      <Display imageUrl={imageUrl} checkData={checkData}/>
+      <Display imageUrl={imageUrl} checkData={checkData} openRead={openRead}/>
     </div>
   );
 }
