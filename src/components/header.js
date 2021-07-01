@@ -4,7 +4,7 @@
 const Header = (props) => {
          
          
-             console.log(props.characterArray)
+            
          
     return(
         <div>

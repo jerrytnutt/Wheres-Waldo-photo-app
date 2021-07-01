@@ -1,5 +1,5 @@
 import './App.css';
-import { useState} from 'react/';
+import {useState} from 'react/';
 import {storage,db} from "./firebase_config.js"
 import Header from "./components/header.js"
 import Display from "./components/display.js"
@@ -11,51 +11,51 @@ function App() {
   const [characterArray,setCharacterArray] = useState([])
   const [imageUrl, setImageUrl] = useState(undefined);
   
-  const openRead = () => {
+  const getDatabaseInfo = () => {
     storage.refFromURL("gs://waldoapp.appspot.com/egor-klyuchnyk-character.jpg") 
     .getDownloadURL()
         .then((url) => {
           setImageUrl(url);
         })
         
-     return readSum() 
+        let ar = []
+        //https://stackoverflow.com/questions/64076261/firebase-response-is-too-slow
+      // react functional components rerendering
+        const dataFor = db.ref('Characters');
+        dataFor.on('value', (snapshot) => {
+            snapshot.forEach(data => {
+              ar.push(data.val())
+              
+            })
+          })
+          setTimeout(() => {
+            setCharacterArray(ar) 
+          }, 1000);
+      return characterArray 
   };
   
-  const readSum = () => {
-    let ar = []
-    //https://stackoverflow.com/questions/64076261/firebase-response-is-too-slow
-  // react functional components rerendering
-    const dataFor = db.ref('Characters');
-    dataFor.on('value', (snapshot) => {
-        snapshot.forEach(data => {
-          ar.push(data.val())
-          
-        })
-      })
-      setTimeout(() => {
-        setCharacterArray(ar) 
-      }, 1000);
-  };
-  const checkData = (coordinates) =>{
-    console.log(coordinates)
-    let x = coordinates[0]
-    let length = coordinates.length
-    let locations;
-    for(let i =0;i<length+1;i++){
-      locations = characterArray[i].Location
-      console.log(characterArray)
-      if(x >= locations['x1'] && x <= locations["x2"]){
-        console.log('found')
-      }
+  const checkCharacterData = (characterCoord,character) =>{
+    const location = characterArray[character]["Location"]
+    let xValue = characterCoord[0]
+    let yValue = characterCoord[1]
+    
+    if (xValue >= location["x1"] && xValue <= location["x2"] && yValue >= location["y1"] && yValue <= location["y2"]){
+      const newArr = [...characterArray]
+      newArr.splice(character, 1)
+      setCharacterArray(newArr)
     }
+    return characterArray
+    
   }
   return (
     
     <div className="App" >
       <Header characterArray={characterArray}/>
-     
-      
-      <Display imageUrl={imageUrl} checkData={checkData} openRead={openRead}/>
+      <Display 
+      imageUrl={imageUrl} 
+      checkCharacterData={checkCharacterData} 
+      getDatabaseInfo={getDatabaseInfo}
+      characterArray={characterArray}/>
     </div>
   );
 }

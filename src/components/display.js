@@ -1,23 +1,27 @@
 import { useState } from 'react/';
-const Display = ({checkData,imageUrl,openRead}) => {
+const Display = ({checkCharacterData,imageUrl,getDatabaseInfo, characterArray}) => {
   const [startButton, setstartButton] = useState(true)
   const [boxCoord, setboxCoord] = useState([0,0])
   const [boxDisplay, setboxDisplay] = useState("none")
-  let start = false
+  const [characterCoord, setcharacterCoord] = useState()
+  
   const checkCoordinates = (event) => {
     if (boxDisplay === "block") return setboxDisplay("none")
     let x = event.nativeEvent.offsetX;
     let y = event.nativeEvent.offsetY;
-    
-    
     setboxCoord([event.clientY,event.clientX])
-    checkData([x,y])
+    setcharacterCoord([x,y])
+    
     
     return setboxDisplay("block")
   };
+  const checkCharacter = (character) => {
+    checkCharacterData(characterCoord,character)
+    return setboxDisplay("none")
+  }
   const startGame = () => {
     setstartButton(false)
-    return openRead()
+    return getDatabaseInfo()
   };
     return(
         <div>
@@ -32,9 +36,12 @@ const Display = ({checkData,imageUrl,openRead}) => {
      </div>
 
   <div className="list" style={{top: boxCoord[0]+55,left: boxCoord[1]+55,display:boxDisplay}}>
-    <div>Type1</div>
-    <div>Type2</div>
-    <div>Type3</div>
+  {characterArray.map((x) => {
+    const index = characterArray.indexOf(x)
+    return <div key={x.Location.x1} onClick={() => checkCharacter(index)} >{x.name}</div>
+            
+        })}
+    
 
   </div>
  
