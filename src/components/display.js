@@ -1,35 +1,47 @@
 import { useState } from 'react/';
 const Display = ({checkCharacterData,imageUrl,getDatabaseInfo, characterArray}) => {
+  const [name, setName] = useState('');
   const [startButton, setstartButton] = useState(true)
   const [boxCoord, setboxCoord] = useState([0,0])
   const [boxDisplay, setboxDisplay] = useState("none")
   const [characterCoord, setcharacterCoord] = useState()
   
-  const checkCoordinates = (event) => {
+  const receiveCoordinates = (event) => {
     if (boxDisplay === "block") return setboxDisplay("none")
     let x = event.nativeEvent.offsetX;
     let y = event.nativeEvent.offsetY;
     setboxCoord([event.clientY,event.clientX])
     setcharacterCoord([x,y])
-    
-    
     return setboxDisplay("block")
   };
+
   const checkCharacter = (character) => {
     checkCharacterData(characterCoord,character)
     return setboxDisplay("none")
   }
-  const startGame = () => {
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(`Form submitted, ${name}`);
     setstartButton(false)
-    return getDatabaseInfo()
-  };
+    return getDatabaseInfo()   
+   }
+
     return(
         <div>
-    <img src={imageUrl} onClick={(event) => checkCoordinates(event)} alt="" /> 
+    <img src={imageUrl} onClick={(event) => receiveCoordinates(event)} alt="" /> 
     <div>{startButton ? <div className="startDisplay" >
       <h1>Can you find all the characters?</h1>
+      <h2>Please enter your name to begin</h2>
+
+
+      <form onSubmit = {handleSubmit}>
+            <input onChange = {(e) => setName(e.target.value)} value = {name}></input>
+            <button disabled={!name} type = 'submit'>Click to submit</button>
+        </form>
+
+
       
-      <button className='start'  onClick={startGame}>Start</button>
 
      </div>: null}</div>
    <div className="circle" style={{top: (boxCoord[0]-55),left: (boxCoord[1]-55),display:boxDisplay}}>

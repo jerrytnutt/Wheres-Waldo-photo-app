@@ -73,21 +73,51 @@ h1,h3{
 
 }
 
-
-.imageContainer{
+.header{
+  position:fixed;
+  width: 100%;
   
-  position: fixed;
+  background-color: rgba(0,0,255,0.5);
+}
+.imageContainer{
+  height: 100%;
+ 
+  float: left;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  flex-wrap: wrap;
   width: 40%;
   padding: 15px;
-  background-color: white;
-  border: 2px solid purple;
+  
+ 
 }
 .imageContainer div img{
   border-radius: 50%;
-  border: 1px solid red;
+  height: 100px;
+  width: 100px;
+  transition: all 0.5s;
+}
+
+.imageContainer div img:hover{
+  width: 130px;
+  height: 130px;
+  cursor: pointer;
+
+}
+.timer{
+  position: relative;
+  height: 100%;
+  float: left;
+  top: 25px;
+  border-radius: 15%;
+  text-align: center;
+  font-weight: bold;
+  font-size: 35px;
+  width: 10%;
+  padding: 15px;
+  
+  border: 2px solid black;
 }
 
 
