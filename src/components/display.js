@@ -1,5 +1,5 @@
 import { useState } from 'react/';
-const Display = ({checkCharacterData,imageUrl,getDatabaseInfo, characterArray}) => {
+const Display = ({recieveCharacterCoord,imageUrl,getBackgroundData, characterArray}) => {
   const [name, setName] = useState('');
   const [startButton, setstartButton] = useState(true)
   const [boxCoord, setboxCoord] = useState([0,0])
@@ -16,7 +16,7 @@ const Display = ({checkCharacterData,imageUrl,getDatabaseInfo, characterArray}) 
   };
 
   const checkCharacter = (character) => {
-    checkCharacterData(characterCoord,character)
+    recieveCharacterCoord(characterCoord,character)
     return setboxDisplay("none")
   }
   
@@ -24,7 +24,7 @@ const Display = ({checkCharacterData,imageUrl,getDatabaseInfo, characterArray}) 
     e.preventDefault();
     console.log(`Form submitted, ${name}`);
     setstartButton(false)
-    return getDatabaseInfo()   
+    return getBackgroundData()   
    }
 
     return(
@@ -37,7 +37,7 @@ const Display = ({checkCharacterData,imageUrl,getDatabaseInfo, characterArray}) 
 
       <form onSubmit = {handleSubmit}>
             <input onChange = {(e) => setName(e.target.value)} value = {name}></input>
-            <button disabled={!name} type = 'submit'>Click to submit</button>
+            <button disabled={!name} type = 'submit'>Start Game</button>
         </form>
 
 
