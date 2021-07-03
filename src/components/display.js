@@ -28,11 +28,11 @@ const Display = ({checkCharacterData,imageUrl,getDatabaseInfo, characterArray}) 
    }
 
     return(
-        <div>
+        <div >
     <img src={imageUrl} onClick={(event) => receiveCoordinates(event)} alt="" /> 
     <div>{startButton ? <div className="startDisplay" >
       <h1>Can you find all the characters?</h1>
-      <h2>Please enter your name to begin</h2>
+      <h2>Please enter your name to begin...</h2>
 
 
       <form onSubmit = {handleSubmit}>
@@ -49,7 +49,7 @@ const Display = ({checkCharacterData,imageUrl,getDatabaseInfo, characterArray}) 
 
   <div className="list" style={{top: boxCoord[0]+55,left: boxCoord[1]+55,display:boxDisplay}}>
   {characterArray.map((x) => {
-    const index = characterArray.indexOf(x)
+    const index = x.name
     return <div key={x.Location.x1} onClick={() => checkCharacter(index)} >{x.name}</div>
             
         })}

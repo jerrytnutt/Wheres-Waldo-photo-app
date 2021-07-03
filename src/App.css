@@ -12,11 +12,13 @@ h1,h3{
   flex-direction: column;
   align-items: center;
   position: fixed;
-  top: 50%;
+  border-radius: 20%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 15px;
   width: 70%;
+  background-color: rgb(163, 163, 163);
   border: 3px groove black;
   
 }
@@ -134,4 +136,30 @@ h1,h3{
   height: 200px;
   width: 200px;
   
+}
+.miss{
+  position: fixed;
+  bottom: -20px;
+  height: 30px;
+  width: 200px;
+  background-color: blue;
+}
+.miss-active{
+  position: fixed;
+  bottom: -20px;
+  height: 30px;
+  width: 200px;
+  animation: 1.5s ease 0s slideInFromRight;
+  background-color: green;
+}
+@keyframes slideInFromRight {
+  0% {
+    transform: translateY(-10%);
+  }
+  50% {
+    transform: translateY(-50%);
+  }
+  100% {
+    transform: translateY(-80%);
+  }
 }

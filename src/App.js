@@ -10,6 +10,7 @@ import Display from "./components/display.js"
 function App() {
   const [characterArray,setCharacterArray] = useState([])
   const [imageUrl, setImageUrl] = useState(undefined);
+  const [isActive, setisActive] = useState(false);
   
   const getDatabaseInfo = () => {
     storage.refFromURL("gs://waldoapp.appspot.com/egor-klyuchnyk-character.jpg") 
@@ -18,9 +19,7 @@ function App() {
           setImageUrl(url);
         })
         
-        let ar = []
-        //https://stackoverflow.com/questions/64076261/firebase-response-is-too-slow
-      // react functional components rerendering
+       
       const dataFor = db.ref('Characters');
       
        const pullFromFirebase = () => 
@@ -45,56 +44,54 @@ pullFromFirebase()
   
   const checkCharacterData = (characterCoord,character) =>{
     const dataFor = db.ref('Characters');
-    let goF = () => {
-      console.log('done')
-    }
     const pullFromFirebase = (character) => 
 {
     return new Promise((resolve, reject) => 
     {
     dataFor.once('value').then(function (snapshot) 
         {
+          let char = null;
         const users = Object.keys(snapshot.val()).map(function (key) {
+                if (snapshot.val()[key].name === character){
+                  char = snapshot.val()[key]
+                }
                 return snapshot.val()[key];
             })
-            
-           if (users[character].name === "Batman"){
-             
-            resolve(users);
-            return goF()
-           }
-           return 0
+            resolve(char);
             
         });
     })
 }
-    pullFromFirebase(character)
-    return 0
-    
-    
-    
-    
-    
-  
-
-    const location = characterArray[character]["Location"]
-    let xValue = characterCoord[0]
-    let yValue = characterCoord[1]
-    const newArr = [...characterArray]
-    if (xValue >= location["x1"] && xValue <= location["x2"] && yValue >= location["y1"] && yValue <= location["y2"]){
-      newArr.splice(character, 1)
-      setCharacterArray(newArr)
-    }
-    if(newArr.length === 0){
-      console.log('Game Over')
-    }
-    return characterArray
-    
+    pullFromFirebase(character).then((a) => {
+      console.log(a)
+      const location = a["Location"]
+      let xValue = characterCoord[0]
+      let yValue = characterCoord[1]
+      var index = characterArray.findIndex(i => i.name === a.name);
+      console.log(index)
+      const newArr = [...characterArray]
+      console.log(newArr)
+      if (xValue >= location["x1"] && xValue <= location["x2"] && yValue >= location["y1"] && yValue <= location["y2"]){
+        newArr.splice(index, 1)
+        console.log(newArr)
+        setCharacterArray(newArr)
+        if(newArr.length === 0){
+          console.log('Game Over')
+        }
+        
+        return characterArray
+      }
+      if(newArr.length === 0){
+        console.log('Game Over')
+      }
+      setisActive(true)
+      return characterArray
+    })
   }
   return (
     
     <div className="App" >
-      <Header characterArray={characterArray}/>
+      <Header characterArray={characterArray} isActive={isActive}/>
       <Display 
       imageUrl={imageUrl} 
       checkCharacterData={checkCharacterData} 
