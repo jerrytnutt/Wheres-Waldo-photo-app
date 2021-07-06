@@ -2,13 +2,14 @@ import {useState} from 'react/';
 import {storage,db} from "./firebase_config.js"
 import Header from "./components/header.js"
 import Display from "./components/display.js"
+import Boards from "./components/boards.js"
 import './App.css';
-//change leader name
+
 function App() {
   const [characterArray,setCharacterArray] = useState([])
   const [imageUrl, setImageUrl] = useState(null);
   const [seconds, setSeconds] = useState(false);
-  const [leader, setleader] = useState([]);
+  const [leaderBoard, setleaderBoard] = useState([]);
   const [score, setScore] = useState(0);
   const [missBox, setmissBox] = useState(false);
   
@@ -49,10 +50,16 @@ function App() {
       board = board.sort(function(a, b) {
         return a.score - b.score
     });
+    setImageUrl(null)
     setScore(time.toString())
-    return setleader(board)
+    return setleaderBoard(board)
     }) 
   }; 
+  const resetGame = () =>{
+    console.log("Reset") 
+  }; 
+
+  
 
   const recieveCharacterCoord = (characterCoord,character) =>{
     
@@ -78,19 +85,24 @@ function App() {
   
   return (
     <div className="App" >
-      <Header characterArray={characterArray} 
+      <Header 
+      characterArray={characterArray} 
       missBox={missBox} 
       setmissBox={setmissBox}
       seconds={seconds}
       setSeconds={setSeconds}/>
-      
+
+      <Boards
+      getBackgroundData={getBackgroundData}
+      leaderBoard={leaderBoard}
+      setleaderBoard={setleaderBoard}
+      score={score}
+      resetGame={resetGame}/>
+
       <Display 
       imageUrl={imageUrl} 
       recieveCharacterCoord={recieveCharacterCoord} 
-      getBackgroundData={getBackgroundData}
-      characterArray={characterArray}
-      leader={leader}
-      score={score}/>
+      characterArray={characterArray}/>
     </div>
   );
 }

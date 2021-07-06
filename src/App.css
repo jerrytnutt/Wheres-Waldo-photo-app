@@ -1,79 +1,79 @@
-@import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
-
+@import url('https://fonts.googleapis.com/css?family=Encode+Sans+SC&display=swap');
 
 .App {
   width: 100%;
-  
 }
+
 h1,h3{
   margin: 0px;
 }
+
 .startDisplay{
   display:flex;
   flex-direction: column;
   align-items: center;
   position: fixed;
   text-align: center;
-  border-radius: 10%;
+  border-radius: 2%;
+  
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 20px;
-  width: 20%;
-  background-color: rgb(221, 221, 221);
+  width: 30%;
+  color: white;
+  background-color: rgb(47, 29, 70);
   border: 3px groove black;
   font-size: 1.3vw;
-  font-family: Poppins;
- 
+  font-family: "Encode Sans SC";
   
 }
-.start{
-  height: 50px;
-  width: 20%;
-  border-radius: 2%;
-  border: 1px solid black;
-  background-color: rgb(223, 223, 223);
+a{
+  color: rgb(43, 110, 255);
 }
+a:hover{
+  color: rgb(199, 0, 199);
+}
+
 input{
   width: 90%;
+  height: 30px;
+  font-size: 20px;
 }
+
 button{
-  background-color: rgb(34, 131, 34);
-  border: 2px groove rgb(145, 145, 250);
   height: 40px;
+  margin-top: 10px;
   font-weight: bold;
-  color: black;
   font-size: 20px;
   border-radius: 5px;
   text-align: center;
   cursor: pointer;
 }
-input{
-  height: 30px;
-  font-size: 20px;
-}
 
-.list{
+.selectionList{
+  position: fixed;
   padding: 25px;
   width: 150px;
-  border: 1px groove purple;
-  position: fixed;
   background-color: rgb(70, 68, 99);
   cursor: pointer;
-  border-radius: 10px;
+  border-radius: 5px;
 }
-.list div{
+
+.selectionList div{
   height: 25px;
   width: 100%;
   text-align: center;
   margin-bottom: 10px;
   color: white;
   border-radius: 10px;
-  border: 1px solid black;
+  border: 2px solid black;
 }
-.list div:hover{
+
+.selectionList div:hover{
   background-color: rgb(64, 51, 121);
 }
+
 .circle{
   width: 100px;
   height: 100px;
@@ -83,6 +83,7 @@ input{
   animation-duration: 0.5s;
   animation-name: slidein;
 }
+
 @keyframes slidein {
     from {
       width:0px;
@@ -93,19 +94,16 @@ input{
       height: 100px;
       width:100px;
     }
-  
-
 }
 
 .header{
   position:fixed;
   width: 100%;
-  
   background-color: rgba(0,0,255,0.5);
 }
+
 .imageContainer{
   height: 100%;
- 
   float: left;
   display: flex;
   flex-direction: row;
@@ -113,9 +111,8 @@ input{
   flex-wrap: wrap;
   width: 40%;
   padding: 15px;
-  
- 
 }
+
 .imageContainer div img{
   border-radius: 50%;
   height: 100px;
@@ -127,8 +124,8 @@ input{
   width: 130px;
   height: 130px;
   cursor: pointer;
-
 }
+
 .timer{
   position: relative;
   height: 100%;
@@ -140,31 +137,20 @@ input{
   font-size: 35px;
   width: 10%;
   padding: 15px;
-  
-  border: 2px solid black;
+  border: 3px solid black;
 }
 
+.timer:hover{
+  background-color: rgba(62, 62, 150, 0.9);
+}
 
-.y{
-  position: absolute;
-  height: 200px;
-  width: 200px;
-  right: 50px;
-}
-.u{
-  bottom: 50px;
-}
-.l{
-  height: 200px;
-  width: 200px;
-  
-}
 .miss{
   position: fixed;
   bottom: -40px;
   height: 30px;
   width: 200px;
 }
+
 .miss-active{
   position: fixed;
   bottom: -50px;
@@ -190,18 +176,36 @@ input{
     transform: translateY(0px);
   }
 }
+
+.leaderDisplay{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  color: white;
+  border-radius: 2%;
+  max-height: 500px;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 15px;
+  width: 40%;
+  background-color: rgb(47, 29, 70);
+  border: 3px groove black;
+  font-size: 1.3vw;
+  font-family: "Encode Sans SC";
+  overflow: scroll;
+}
+
 .ranking{
+  padding: 10px;
+  font-size: 20px;
   width: 90%;
   background-color: red;
-}
-.ranking{
-  padding: 15px;
-  font-size: 25px;
 }
 .left{
   float: left;
   margin-right: 10px;
-
 }
 .score{
   float: right;
