@@ -19,6 +19,7 @@ function App() {
         .then((url) => {
           setImageUrl(url);
         })
+   
          return getCharacterData("Characters")
       };
 
@@ -97,7 +98,9 @@ function App() {
       leaderBoard={leaderBoard}
       setleaderBoard={setleaderBoard}
       score={score}
-      resetGame={resetGame}/>
+      resetGame={resetGame}
+      
+      />
 
       <Display 
       imageUrl={imageUrl} 

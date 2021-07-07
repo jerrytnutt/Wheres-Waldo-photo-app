@@ -1,11 +1,24 @@
 import { useState } from 'react/';
-import {db} from "../firebase_config.js"
+import {db,storage} from "../firebase_config.js"
+
 const Boards = ({getBackgroundData,leaderBoard,setleaderBoard,score,resetGame}) => {
     const [startMenu, setstartMenu] = useState(true)
     const [userName, setuserName] = useState('');
+    const [imgPreview, setimgPreview] = useState([]);
+    const [level, setlevel] = useState(null);
+    storage.refFromURL("gs://waldoapp.appspot.com/smallone.jpg") 
+    .getDownloadURL()
+      .then((url) => {
+        setimgPreview(url);
+      })
   
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (level === null){
+          return null
+
+        }
+        console.log(e.target.getAttribute('button'))
         if (leaderBoard.indexOf(userName) !== -1){
           return null
         }
@@ -30,6 +43,7 @@ const Boards = ({getBackgroundData,leaderBoard,setleaderBoard,score,resetGame}) 
          setleaderBoard(leaderCopy)
          return resetGame()
        }
+      
     return(
       <div>
           <div>{startMenu ? 
@@ -38,9 +52,21 @@ const Boards = ({getBackgroundData,leaderBoard,setleaderBoard,score,resetGame}) 
             <h2>Enter your name to begin...</h2>
           <form onSubmit = {handleSubmit}>
             <input onChange = {(e) => setuserName(e.target.value)} value = {userName}></input>
-            <button disabled={!userName} type ='submit'>Start Game</button>
-            <p>Art by <a href="https://www.artstation.com/artwork/Z5VrOm">Egor Klyuchnyk</a></p>
+            <button disabled={!userName} name="sam" type ='submit'>Start Game</button>
+            <div className="levelContainer">
+            
+
+
+            </div>
+            
+            
           </form>
+          <div className="img">
+          <div><img onClick={() => {setlevel('left')}} src={imgPreview} alt="" /></div>
+            <div><img onClick={() => {setlevel('right')}} src={imgPreview} alt="" /></div>
+            </div>
+
+          <p>Art by <a href="https://www.artstation.com/artwork/Z5VrOm">Egor Klyuchnyk</a></p>
           </div>: null}
         </div>
         <div>{leaderBoard.length !== 0 ? 
