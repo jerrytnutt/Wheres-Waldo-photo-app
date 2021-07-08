@@ -9,6 +9,7 @@ const Display = ({recieveCharacterCoord,imageUrl,characterArray}) => {
     if (boxDisplay === "block") return setboxDisplay("none")
     const x = event.nativeEvent.offsetX;
     const y = event.nativeEvent.offsetY;
+    console.log(x,y)
     setboxCoord([event.clientY,event.clientX])
     setcharacterCoord([x,y])
     return setboxDisplay("block")

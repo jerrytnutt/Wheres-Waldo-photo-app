@@ -35,7 +35,7 @@ const Header = ({characterArray,missBox,seconds,setSeconds}) => {
         <div className="imageContainer">
         {characterArray.map((x) => {
             
-            return <div  key={x.Location.x1}><img className="charImage"  src={x.image} alt=''></img></div>
+            return <div className="holder"  key={x.Location.x1}><img className="charImage"  src={x.image} alt=''></img><p>{x.name}</p></div>
         })}
         </div>
         <div>{characterArray.length > 0 ? <div className='timer'>{seconds}</div> : null}</div> 

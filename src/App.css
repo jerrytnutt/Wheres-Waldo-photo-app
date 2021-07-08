@@ -20,7 +20,7 @@ h1,h3{
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 20px;
-  width: 90%;
+  width: 70%;
   color: white;
   background-color: rgb(47, 29, 70);
   border: 3px groove black;
@@ -36,13 +36,13 @@ a:hover{
 }
 
 input{
-  width: 90%;
+  width: 70%;
   height: 30px;
   font-size: 20px;
 }
 
 button{
-  height: 40px;
+ 
   margin-top: 10px;
   font-weight: bold;
   font-size: 20px;
@@ -121,9 +121,19 @@ button{
 }
 
 .imageContainer div img:hover{
-  width: 130px;
-  height: 130px;
+  width: 150px;
+  height: 150px;
   cursor: pointer;
+}
+
+.holder{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.holder p{
+  margin: 0px;
 }
 
 .timer{
@@ -212,8 +222,7 @@ button{
   
 }
 .levelContainer{
-  width: 800px;
-  background-color: black;
+  
   height: 30px;
 }
 .levelContainer div{
@@ -221,8 +230,26 @@ button{
 }
 .img{
   display: flex;
+  
   flex-direction: row;
   justify-content: center;
-  background-color: chartreuse;
 
+}
+.con{
+  display: flex;
+  overflow: hidden;
+  height: 350px;
+  flex-direction: column;
+  align-items: center;
+  
+}
+.con button:hover{
+  background-color: rgb(109, 108, 108);
+  border: 0px;
+}
+.dot{
+  background-color: green;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
 }

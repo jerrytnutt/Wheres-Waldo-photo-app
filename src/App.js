@@ -13,14 +13,20 @@ function App() {
   const [score, setScore] = useState(0);
   const [missBox, setmissBox] = useState(false);
   
-  const getBackgroundData = () => {
-    storage.refFromURL("gs://waldoapp.appspot.com/egor-klyuchnyk-character.jpg") 
+  const getBackgroundData = (level) => {
+    console.log(level)
+    if (level === "left"){
+      level = "gs://waldoapp.appspot.com/egor-klyuchnyk-character.jpg"
+    }else{
+      level = "gs://waldoapp.appspot.com/egor-klyuchnyk-character-part2.jpg"
+    }
+    storage.refFromURL(level) 
       .getDownloadURL()
         .then((url) => {
           setImageUrl(url);
         })
    
-         return getCharacterData("Characters")
+         return getCharacterData("Characters-part2")
       };
 
   const getCharacterData = (refrence,character=null) => {
@@ -64,7 +70,7 @@ function App() {
 
   const recieveCharacterCoord = (characterCoord,character) =>{
     
-    getCharacterData("Characters",character).then((item) => {
+    getCharacterData("Characters-part2",character).then((item) => {
       const location = item["Location"]
       const xValue = characterCoord[0]
       const yValue = characterCoord[1]
