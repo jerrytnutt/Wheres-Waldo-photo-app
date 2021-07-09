@@ -7,6 +7,7 @@ import './App.css';
 
 function App() {
   const [characterArray,setCharacterArray] = useState([])
+  const [characterGroup,setcharacterGroup] = useState("Characters")
   const [imageUrl, setImageUrl] = useState(null);
   const [seconds, setSeconds] = useState(false);
   const [leaderBoard, setleaderBoard] = useState([]);
@@ -14,26 +15,29 @@ function App() {
   const [missBox, setmissBox] = useState(false);
   
   const getBackgroundData = (level) => {
-    console.log(level)
+    let characterPart;
     if (level === "left"){
       level = "gs://waldoapp.appspot.com/egor-klyuchnyk-character.jpg"
+      characterPart = "Characters"
     }else{
       level = "gs://waldoapp.appspot.com/egor-klyuchnyk-character-part2.jpg"
+      characterPart = "Characters-part2"
+      setcharacterGroup("Characters-part2")
     }
     storage.refFromURL(level) 
       .getDownloadURL()
         .then((url) => {
           setImageUrl(url);
         })
-   
-         return getCharacterData("Characters-part2")
+         
+         return getCharacterData(characterPart)
       };
-
+  
   const getCharacterData = (refrence,character=null) => {
     return new Promise((resolve) => {
-        const dataFor = db.ref(refrence);
-        dataFor.once('value').then(function (snapshot) 
-        {
+      const dataFor = db.ref(refrence);
+      dataFor.once('value').then(function (snapshot) 
+      {
         const content = Object.keys(snapshot.val()).map(function (key) {
           if (snapshot.val()[key].name === character){
             character = snapshot.val()[key]
@@ -51,7 +55,7 @@ function App() {
         });
     })
 };
-
+  
   const gameOver = (time) =>{
     getCharacterData("Leaderboard").then((board) => {
       board = board.sort(function(a, b) {
@@ -62,15 +66,19 @@ function App() {
     return setleaderBoard(board)
     }) 
   }; 
-  const resetGame = () =>{
-    console.log("Reset") 
-  }; 
 
-  
+  const resetGame = () =>{
+    setleaderBoard([])
+    setCharacterArray([])
+    setcharacterGroup("Characters")
+    return setImageUrl(null) 
+  }; 
 
   const recieveCharacterCoord = (characterCoord,character) =>{
     
-    getCharacterData("Characters-part2",character).then((item) => {
+    getCharacterData(characterGroup,character).then((item) => {
+      console.log(characterGroup)
+      console.log(character)
       const location = item["Location"]
       const xValue = characterCoord[0]
       const yValue = characterCoord[1]
@@ -101,13 +109,12 @@ function App() {
 
       <Boards
       getBackgroundData={getBackgroundData}
+      getCharacterData={getCharacterData}
       leaderBoard={leaderBoard}
       setleaderBoard={setleaderBoard}
       score={score}
       resetGame={resetGame}
-      
       />
-
       <Display 
       imageUrl={imageUrl} 
       recieveCharacterCoord={recieveCharacterCoord} 

@@ -4,13 +4,9 @@ import {db} from "../firebase_config.js"
 //https://villains.fandom.com/wiki/Kratos/Gallery?file=Kratos_Headshot.jpg
 //https://spiderman.fandom.com/wiki/Peter_Parker_(Earth-616)
 const Header = ({characterArray,missBox,seconds,setSeconds}) => {
-  
-  
   useEffect(() => {
-    
-    
     if (seconds >= 0 && characterArray.length > 0) {
-      console.log('if')
+      
       setTimeout(() => {
         db.ref('Time').update({
           clock: seconds
@@ -18,7 +14,7 @@ const Header = ({characterArray,missBox,seconds,setSeconds}) => {
           setSeconds(seconds + 1)
         }, 1000);
     } else {
-      console.log('else')
+      
       setSeconds(0);
         db.ref('Time').update({
           clock: 0
