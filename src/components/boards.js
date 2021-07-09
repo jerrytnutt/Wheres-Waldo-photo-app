@@ -1,9 +1,6 @@
 import { useState,useEffect } from 'react/';
 import {db,storage} from "../firebase_config.js"
 
-
-
-
 const Boards = ({getBackgroundData,leaderBoard,setleaderBoard,score,resetGame}) => {
     const [startMenu, setstartMenu] = useState(true)
     const [userName, setuserName] = useState("");
@@ -14,9 +11,8 @@ const Boards = ({getBackgroundData,leaderBoard,setleaderBoard,score,resetGame}) 
     const handleSubmit = (e) => {
       e.preventDefault();
       for (let i = 0; i<leaderBoard.length;i++){
-        console.log(leaderBoard[i].name)
         if (leaderBoard[i].name === userName){
-          console.log(null)
+          alert("Sorry, that username already exists")
           setuserName("")
           return null
         }
@@ -31,41 +27,40 @@ const Boards = ({getBackgroundData,leaderBoard,setleaderBoard,score,resetGame}) 
        }
 
        const addName = () => {
-        
-         
-         
-         let leaderCopy = [...leaderBoard]
+         if (userName === ""){
+           return null;
+         }
+         let leaderCopy = [...leaderBoard];
          leaderCopy.push({name:userName,score:score})
          leaderCopy = leaderCopy.sort(function(a, b) {
-          return a.score - b.score
+           return a.score - b.score
       });
-         db.ref('Leaderboard').set(leaderCopy)
-         setleaderBoard(leaderCopy)
-         
+         db.ref('Leaderboard').set(leaderCopy);
+         setleaderBoard(leaderCopy);
+         setuserName("");
+         setlevel(null);
        }
-       const select = (direction) => {
+
+       const selectLevel = (direction) => {
          setlevel(direction)
          if (userName !== ""){
           setstartMenu(false)
           return getBackgroundData(direction) 
          }
-
        }
-      
+
        useEffect(() => {
-        
         storage.refFromURL("gs://waldoapp.appspot.com/smallone.jpg") 
         .getDownloadURL()
           .then((url) => {
-            
             setlevelOnePreview(url);
           })
           storage.refFromURL("gs://waldoapp.appspot.com/smallone-part2.jpg") 
         .getDownloadURL()
           .then((url) => {
-           
             setlevelTwoPreview(url);
           })
+
           const getLeader = () => {
             return new Promise((resolve) => {
               const dataFor = db.ref("Leaderboard");
@@ -75,24 +70,18 @@ const Boards = ({getBackgroundData,leaderBoard,setleaderBoard,score,resetGame}) 
                     return snapshot.val()[key];
                   })
                   setleaderBoard(content)
-                  console.log(content)
                   return resolve(content)  
                 });
             })
            }
-      
           getLeader();
       }, [setleaderBoard]);
        
-      
-
       const restartGame = ()=> {
-        setstartMenu(true)
-        setuserName("")
-        setlevel(null)
-        return resetGame()
+        setstartMenu(true);
+        return resetGame();
       }
-      
+
     return(
       <div>
           <div>{startMenu ? 
@@ -102,15 +91,11 @@ const Boards = ({getBackgroundData,leaderBoard,setleaderBoard,score,resetGame}) 
           <form onSubmit = {handleSubmit}>
             <input onChange = {(e) => setuserName(e.target.value)} value = {userName}></input>
             <button disabled={!userName} name="sam" type ='submit'>Start Game</button>
-            
-            
-            
           </form>
           <div className="img">
-          <div className="con" ><button  onClick={(e) => {select('left')}}>Level 1</button><img  src={levelOnePreview} alt="" /></div>
-            <div className="con"><button  onClick={(e) => {select('right')}}>Level 2</button><img  src={levelTwoPreview} alt="" /></div>
-            </div>
-
+            <div className="levelImg" ><button  onClick={(e) => {selectLevel('left')}}>Level 1</button><img  src={levelOnePreview} alt="" /></div>
+            <div className="levelImg"><button  onClick={(e) => {selectLevel('right')}}>Level 2</button><img  src={levelTwoPreview} alt="" /></div>
+          </div>
           <p>Art by <a href="https://www.artstation.com/artwork/Z5VrOm">Egor Klyuchnyk</a></p>
           </div>: null}
         </div>
@@ -121,16 +106,15 @@ const Boards = ({getBackgroundData,leaderBoard,setleaderBoard,score,resetGame}) 
            <button onClick={restartGame}>Reset Game</button>
            {leaderBoard.map((x) => {
            const index = leaderBoard.indexOf(x)
-           console.log(userName,score)
-           return <div className="ranking" key={index}><p className="left">{index + 1}.</p><p className="left">{x.name}</p><p className="score">{x.score}</p>
-          
-           </div>
-           
-            
+           return <div className="ranking" 
+             key={index}>
+             <p className="left">{index + 1}.</p>
+             <p className="left">{x.name}</p>
+             <p className="score">{x.score}</p>
+          </div>
             })}
           </div>: null}
         </div>
-        
        </div>
     )
 }

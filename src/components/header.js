@@ -1,12 +1,9 @@
 import {useEffect } from 'react/';
 import {db} from "../firebase_config.js"
-//https://dc.fandom.com/wiki/Adam_West
-//https://villains.fandom.com/wiki/Kratos/Gallery?file=Kratos_Headshot.jpg
-//https://spiderman.fandom.com/wiki/Peter_Parker_(Earth-616)
+
 const Header = ({characterArray,missBox,seconds,setSeconds}) => {
   useEffect(() => {
     if (seconds >= 0 && characterArray.length > 0) {
-      
       setTimeout(() => {
         db.ref('Time').update({
           clock: seconds
@@ -14,7 +11,6 @@ const Header = ({characterArray,missBox,seconds,setSeconds}) => {
           setSeconds(seconds + 1)
         }, 1000);
     } else {
-      
       setSeconds(0);
         db.ref('Time').update({
           clock: 0
@@ -30,12 +26,10 @@ const Header = ({characterArray,missBox,seconds,setSeconds}) => {
           <div className={className}>Sorry, try again!</div>  
         <div className="imageContainer">
         {characterArray.map((x) => {
-            
             return <div className="holder"  key={x.Location.x1}><img className="charImage"  src={x.image} alt=''></img><p>{x.name}</p></div>
         })}
         </div>
         <div>{characterArray.length > 0 ? <div className='timer'>{seconds}</div> : null}</div> 
-        
         </div>
     )
 }

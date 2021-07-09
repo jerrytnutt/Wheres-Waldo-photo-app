@@ -10,18 +10,15 @@ const Display = ({recieveCharacterCoord,imageUrl,characterArray}) => {
     const x = event.nativeEvent.offsetX;
     const y = event.nativeEvent.offsetY;
     setboxCoord([event.clientY,event.clientX])
-    setcharacterCoord([x,y])
-    return setboxDisplay("block")
+    setcharacterCoord([x,y]);
+    return setboxDisplay("block");
   };
 
   const checkCharacter = (name) => {
-    recieveCharacterCoord(characterCoord,name)
-    return setboxDisplay("none")
+    recieveCharacterCoord(characterCoord,name);
+    return setboxDisplay("none");
   }
-  
- 
-   
-
+    
     return(
       <div>
         <img src={imageUrl} onClick={(event) => receiveCoordinates(event)} alt="" /> 
@@ -30,7 +27,6 @@ const Display = ({recieveCharacterCoord,imageUrl,characterArray}) => {
            {characterArray.map((x) => {
            const index = x.name
            return <div key={x.Location.x1} onClick={() => checkCharacter(index)} >{x.name}</div>
-            
             })}
        </div>
        </div>

@@ -3,6 +3,7 @@ import {storage,db} from "./firebase_config.js"
 import Header from "./components/header.js"
 import Display from "./components/display.js"
 import Boards from "./components/boards.js"
+
 import './App.css';
 
 function App() {
@@ -18,19 +19,18 @@ function App() {
     let characterPart;
     if (level === "left"){
       level = "gs://waldoapp.appspot.com/egor-klyuchnyk-character.jpg"
-      characterPart = "Characters"
+      characterPart = "Characters";
     }else{
       level = "gs://waldoapp.appspot.com/egor-klyuchnyk-character-part2.jpg"
-      characterPart = "Characters-part2"
-      setcharacterGroup("Characters-part2")
+      characterPart = "Characters-part2";
     }
     storage.refFromURL(level) 
       .getDownloadURL()
         .then((url) => {
           setImageUrl(url);
         })
-         
-         return getCharacterData(characterPart)
+         setcharacterGroup(characterPart);
+         return getCharacterData(characterPart);
       };
   
   const getCharacterData = (refrence,character=null) => {
@@ -40,60 +40,54 @@ function App() {
       {
         const content = Object.keys(snapshot.val()).map(function (key) {
           if (snapshot.val()[key].name === character){
-            character = snapshot.val()[key]
+            character = snapshot.val()[key];
           }
             return snapshot.val()[key];
           })
           if (refrence === "Leaderboard"){
-            return resolve(content)
+            return resolve(content);
           }
           if (character === null){
-            resolve(content);
-            return setCharacterArray(content)
+            setCharacterArray(content);
+            return resolve(content);
           } 
             return resolve(character);
         });
     })
 };
-  
-  const gameOver = (time) =>{
-    getCharacterData("Leaderboard").then((board) => {
-      board = board.sort(function(a, b) {
-        return a.score - b.score
-    });
-    setImageUrl(null)
-    setScore(time.toString())
-    return setleaderBoard(board)
-    }) 
-  }; 
-
   const resetGame = () =>{
-    setleaderBoard([])
-    setCharacterArray([])
-    setcharacterGroup("Characters")
-    return setImageUrl(null) 
+    setleaderBoard([]);
+    setCharacterArray([]);
+    setcharacterGroup("");
+    return setImageUrl(null) ;
   }; 
 
   const recieveCharacterCoord = (characterCoord,character) =>{
     
     getCharacterData(characterGroup,character).then((item) => {
-      console.log(characterGroup)
-      console.log(character)
-      const location = item["Location"]
-      const xValue = characterCoord[0]
-      const yValue = characterCoord[1]
+      const location = item["Location"];
+      const xValue = characterCoord[0];
+      const yValue = characterCoord[1];
       const index = characterArray.findIndex(i => i.name === item.name);
-      const newArr = [...characterArray]
+      const newArr = [...characterArray];
       if (xValue >= location["x1"] && xValue <= location["x2"] && yValue >= location["y1"] && yValue <= location["y2"]){
-        newArr.splice(index, 1)
-        setCharacterArray(newArr)
+        newArr.splice(index, 1);
+        setCharacterArray(newArr);
         if(newArr.length === 0){
-          return gameOver(seconds)
+          getCharacterData("Leaderboard").then((board) => {
+            board = board.sort(function(a, b) {
+            return a.score - b.score;
+        });
+          setImageUrl(null);
+          setScore(seconds.toString());
+          return setleaderBoard(board);
+        })
+          
         }
         return characterArray
       }
-      setmissBox(true)
-      setTimeout(() => setmissBox(false),3000)
+      setmissBox(true);
+      setTimeout(() => setmissBox(false),3000);
       return character
     })
   }
@@ -115,6 +109,7 @@ function App() {
       score={score}
       resetGame={resetGame}
       />
+      
       <Display 
       imageUrl={imageUrl} 
       recieveCharacterCoord={recieveCharacterCoord} 
