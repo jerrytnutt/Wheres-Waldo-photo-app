@@ -1,4 +1,4 @@
-import {useState} from 'react/';
+import {useState,useEffect} from 'react/';
 import {storage,db} from "./firebase_config.js"
 import Header from "./components/header.js"
 import Display from "./components/display.js"
@@ -91,6 +91,9 @@ function App() {
       return character
     })
   }
+    useEffect(() => {
+      document.title = "Photo Tagging"
+   }, []);
   
   return (
     <div className="App" >
