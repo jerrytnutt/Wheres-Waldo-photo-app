@@ -13,7 +13,6 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig)
 let storage = firebase.storage()
 export {storage}
-const reader = new FileReader();
-export {reader}
+
 const db = firebase.database()
 export {db}

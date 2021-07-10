@@ -17,10 +17,12 @@ const Header = ({characterArray,missBox,seconds,setSeconds}) => {
         })
       }
     },[seconds,setSeconds,characterArray]) 
+
     let className = 'miss';
     if (missBox) {
       className = 'miss-active';
     } 
+    
     return(
         <div className='header'>
           <div className={className}>Sorry, try again!</div>  
