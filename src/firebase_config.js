@@ -1,4 +1,5 @@
 import firebase from "firebase";
+import "firebase/auth";
 
 var firebaseConfig = {
     apiKey: "AIzaSyCktOKStiyKc-JeGHlmB4brK5d7oxswBFc",
@@ -11,9 +12,30 @@ var firebaseConfig = {
   };
 
 firebase.initializeApp(firebaseConfig)
+let uid;
+
+firebase.auth().signOut();
+firebase.auth().signInAnonymously()
+.then(() => {
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      console.log(user)
+      uid = user.uid;
+    } else {
+      console.log("Sign Out")
+    }
+  });
+  console.log('sign in')
+})
+.catch((error) => {
+  console.log(error)
+ 
+});
+
 let storage = firebase.storage()
 export {storage}
 const reader = new FileReader();
 export {reader}
 const db = firebase.database()
 export {db}
+export {uid}

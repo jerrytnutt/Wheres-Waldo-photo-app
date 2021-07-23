@@ -78,6 +78,7 @@ const Boards = ({getBackgroundData,leaderBoard,setleaderBoard,score,resetGame}) 
       }, [setleaderBoard]);
        
       const restartGame = ()=> {
+        
         setstartMenu(true);
         return resetGame();
       }

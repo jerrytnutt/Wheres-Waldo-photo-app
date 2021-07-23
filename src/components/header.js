@@ -1,22 +1,29 @@
 import {useEffect } from 'react/';
 import {db} from "../firebase_config.js"
+import {uid} from "../firebase_config.js"
+
 
 const Header = ({characterArray,missBox,seconds,setSeconds}) => {
+
   useEffect(() => {
+    
     if (seconds >= 0 && characterArray.length > 0) {
+      console.log(uid)
       setTimeout(() => {
-        db.ref('Time').update({
-          clock: seconds
-          })
-          setSeconds(seconds + 1)
-        }, 1000);
+       db.ref('Time/' + uid).set({
+        clock: seconds
+      })
+      setSeconds(seconds + 1)
+    }, 1000);
+       
     } else {
       setSeconds(0);
-        db.ref('Time').update({
+      db.ref('Time/' + uid).set({
           clock: 0
         })
       }
-    },[seconds,setSeconds,characterArray]) 
+  });
+  
 
     let className = 'miss';
     if (missBox) {

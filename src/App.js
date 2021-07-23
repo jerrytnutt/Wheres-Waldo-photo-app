@@ -4,6 +4,7 @@ import Header from "./components/header.js"
 import Display from "./components/display.js"
 import Boards from "./components/boards.js"
 
+
 import './App.css';
 
 function App() {
@@ -56,6 +57,7 @@ function App() {
     })
 };
   const resetGame = () =>{
+    
     setleaderBoard([]);
     setCharacterArray([]);
     setcharacterGroup("");
